@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { BlogFooter } from "@/components/home/blog-footer";
 import HeroSection from "@/components/home/hero-section";
 import TopArticles from "@/components/home/top-articles";

@@ -17,8 +17,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UserMenu from "@/components/logout-pop-page";
-import LoginForm from "@/app/login/page";
-import SignUpForm from "@/app/signup/page";
+import LoginForm from "@/components/form/login-form";
+import SignUpForm from "@/components/form/sign-form";
+
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

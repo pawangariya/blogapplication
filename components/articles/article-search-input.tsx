@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
  
 const ArticleSearchInput = () => {
   const searchParams = useSearchParams();
-  
- 
   return (
     <form  className="mx-auto max-w-2xl">
       <div className="relative">

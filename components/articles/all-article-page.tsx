@@ -3,8 +3,6 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"; 
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-
-
 import { Search } from "lucide-react";
 import Image from "next/image";
 import type { Prisma } from "@prisma/client";
