@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npx prisma generate && next build",
+  "ignoreCommand": "npx prisma validate",
+  "installCommand": "npm install"
+}
