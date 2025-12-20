@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
   experimental: {
     // @ts-expect-error Turbopack config isn't typed yet
     turbo: {
-      enabled: false,
+      
     },
   },
 

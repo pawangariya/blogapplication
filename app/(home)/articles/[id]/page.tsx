@@ -1,5 +1,4 @@
 
-
 import { ArticleDetailPage } from "@/components/articles/article-detail-page";
 import { prisma } from "@/lib/prisma";
 import React from "react";

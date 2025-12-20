@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+
 import { BlogFooter } from "@/components/home/blog-footer";
 import HeroSection from "@/components/home/hero-section";
 import TopArticles from "@/components/home/top-articles";
@@ -10,9 +10,9 @@ import { AllArticlesPageSkeleton } from "./articles/page";
 
 
 export default function Home() {
+  
   return (
     <div>
-     
       <HeroSection/>
       <section className="relative py-10 md:py-24">
         <div className="container mx-auto px-4">
@@ -21,9 +21,10 @@ export default function Home() {
             <p>Discover our most popular and trending content</p>
           </div>
         </div>
-        <Suspense fallback={<AllArticlesPageSkeleton/>}>
-          <TopArticles/>
-        </Suspense>
+        {/* <Suspense fallback={<AllArticlesPageSkeleton/>}>
+          
+        </Suspense> */}
+        <TopArticles/>
         
         <div className="text-center mt-12">
           <Link href={'/articles'}>

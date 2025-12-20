@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+
 import ArticleSearchInput from "@/components/articles/article-search-input";
 import { Button } from "@/components/ui/button";
 import React, { Suspense } from "react";
