@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { AllArticlesPageSkeleton } from "./articles/page";
+// import { AllArticlesPageSkeleton } from "./articles/page";
 
 
 export default function Home() {

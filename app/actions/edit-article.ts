@@ -37,9 +37,9 @@ export const editArticle = async (
   prevState: CreateArticlesFormstate,
   formData: FormData
 ): Promise<CreateArticlesFormstate> => {
-  console.log("Editing Article ID:", articleId);
+  
 
-  // 1️⃣ Validate form fields
+  //  Validate form fields
   const result = createArticleSchema.safeParse({
     title: formData.get("title"),
     category: formData.get("category"),
@@ -50,35 +50,39 @@ export const editArticle = async (
     return { errors: result.error.flatten().fieldErrors };
   }
 
-  // 2️⃣ Read JWT token from cookies
+  //  Read JWT token from cookies
   const cookieStore = await cookies();
   const token = cookieStore.get("authToken")?.value ?? null;
   if (!token) return { errors: { formErros: ["You must login first"] } };
 
-  // 3️⃣ Verify JWT
+  //  Verify JWT
   let userId: string;
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: string;
+    };
     userId = decoded.id;
   } catch (err) {
     return { errors: { formErros: ["Invalid or expired token"] } };
   }
 
-  // 4️⃣ Check if article exists
+  //  Check if article exists
   const existingArticle = await prisma.articles.findUnique({
     where: { id: articleId },
   });
   if (!existingArticle) return { errors: { formErros: ["Article not found"] } };
 
-  // 5️⃣ Verify user exists and owns the article
+  //  Verify user exists and owns the article
   const existingUser = await prisma.user.findUnique({
     where: { id: userId },
   });
   if (!existingUser || existingArticle.authorId !== existingUser.id) {
-    return { errors: { formErros: ["You are not allowed to edit this article"] } };
+    return {
+      errors: { formErros: ["You are not allowed to edit this article"] },
+    };
   }
 
-  // 6️⃣ Handle optional image upload
+  //  Handle optional image upload
   let imageUrl = existingArticle.featuredImage;
   const imageFile = formData.get("featuredImage") as File | null;
 
@@ -103,14 +107,16 @@ export const editArticle = async (
       if (uploadResponse?.secure_url) {
         imageUrl = uploadResponse.secure_url;
       } else {
-        return { errors: { featuredImage: ["Failed to upload image. Try again."] } };
+        return {
+          errors: { featuredImage: ["Failed to upload image. Try again."] },
+        };
       }
     } catch (error) {
       return { errors: { formErros: ["Image upload failed. Try again."] } };
     }
   }
 
-  // 7️⃣ Update article in Prisma
+  //  Update article in Prisma
   try {
     await prisma.articles.update({
       where: { id: articleId },
@@ -122,14 +128,15 @@ export const editArticle = async (
       },
     });
   } catch (error: unknown) {
-    if (error instanceof Error) return { errors: { formErros: [error.message] } };
-    return { errors: { formErros: ["Internal server error while editing article"] } };
+    if (error instanceof Error)
+      return { errors: { formErros: [error.message] } };
+    return {
+      errors: { formErros: ["Internal server error while editing article"] },
+    };
   }
 
-  // 8️⃣ Revalidate path and redirect
   revalidatePath("/dashboard");
   redirect("/dashboard");
 
-  // 9️⃣ Return empty errors if everything is successful
   return { errors: {} };
 };

@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
@@ -14,13 +13,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  experimental: {
-    // @ts-expect-error Turbopack config isn't typed yet
-    turbo: {
-      
-    },
-  },
-
   productionBrowserSourceMaps: false,
 
   typescript: {
@@ -28,4 +20,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

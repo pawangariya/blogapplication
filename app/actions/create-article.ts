@@ -35,7 +35,8 @@ export const createArticle = async (
   prevState: CreateArticlesFormstate,
   formData: FormData
 ): Promise<CreateArticlesFormstate> => {
-  // 1) Validate fields
+  
+  //  Validate fields
   const result = createArticleSchema.safeParse({
     title: formData.get("title"),
     category: formData.get("category"),
@@ -46,13 +47,13 @@ export const createArticle = async (
     return { errors: result.error.flatten().fieldErrors };
   }
 
-  // 2) Read auth token
+  //  Read auth token
   const token = formData.get("authToken") as string | null;
   if (!token) {
     return { errors: { formErros: ["You must login first"] } };
   }
 
-  // 3) Decode JWT and get user
+  //  Decode JWT and get user
   let existingUser;
 
   try {
@@ -91,7 +92,7 @@ export const createArticle = async (
     };
   }
 
-  // 4) Upload featured image
+  //  Upload featured image
   const imageFile = formData.get("featuredImage") as File | null;
 
   if (!imageFile || imageFile.name === "undefined") {
@@ -122,7 +123,7 @@ export const createArticle = async (
     };
   }
 
-  // 5) Create Article (MODEL NAME CORRECT: Articles)
+  //  Create Article (MODEL NAME CORRECT: Articles)
   try {
     await prisma.articles.create({
       data: {
@@ -142,7 +143,7 @@ export const createArticle = async (
     };
   }
 
-  // 6) Revalidate and redirect
+  //  Revalidate and redirect
   revalidatePath("/dashboard");
   redirect("/dashboard");
 

@@ -16,14 +16,14 @@ const TopArticles = async ({ excludeArticleId }: TopArticlesProps) => {
     where: excludeArticleId
       ? {
           id: {
-            not: excludeArticleId, // 👈 CURRENT ARTICLE EXCLUDED
+            not: excludeArticleId, //  CURRENT ARTICLE EXCLUDED
           },
         }
       : {},
     orderBy: {
       createdAt: "desc",
     },
-    take: 3, // 👈 slice ki zarurat nahi
+    take: 3, 
     include: {
       comments: true,
       author: {

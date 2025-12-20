@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Search, Menu, X } from "lucide-react";
 import Link from "next/link";
 
+import { Suspense } from "react";
+
 import SearchInput from "./search-input";
 import ToggleMode from "./toggle-mode";
 
@@ -19,7 +21,6 @@ import {
 import UserMenu from "@/components/logout-pop-page";
 import LoginForm from "@/components/form/login-form";
 import SignUpForm from "@/components/form/sign-form";
-
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -45,11 +46,11 @@ const Navbar = () => {
     return () => window.removeEventListener("storage", updateUser);
   }, []);
   useEffect(() => {
-      (window as any).openAuthDialog = (isLogin = true) => {
-        setIsLoginForm(isLogin);
-        setIsDialogOpen(true);
-      };
-    }, []);
+    (window as any).openAuthDialog = (isLogin = true) => {
+      setIsLoginForm(isLogin);
+      setIsDialogOpen(true);
+    };
+  }, []);
 
   const handleOpenDialog = (isLogin: boolean) => {
     setIsLoginForm(isLogin);
@@ -65,7 +66,6 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-
           {/* ---------- LEFT: Logo + Desktop Nav ---------- */}
           <div className="flex items-center gap-8">
             <Link href="/" className="text-2xl font-bold">
@@ -76,82 +76,92 @@ const Navbar = () => {
             </Link>
 
             <div className="hidden md:flex items-center gap-4">
-              <Link href="/articles" className="nav-link">Articles</Link>
-              <Link href="/#" className="nav-link">Tutorials</Link>
-              <Link href="/#" className="nav-link">About</Link>
+              <Link href="/articles" className="nav-link">
+                Articles
+              </Link>
+              <Link href="/#" className="nav-link">
+                Tutorials
+              </Link>
+              <Link href="/#" className="nav-link">
+                About
+              </Link>
 
               {role === "admin" && (
-                <Link href="/dashboard" className="nav-link">Dashboard</Link>
+                <Link href="/dashboard" className="nav-link">
+                  Dashboard
+                </Link>
               )}
             </div>
           </div>
 
           {/* ---------- RIGHT: Search + Theme + Login/Avatar ---------- */}
           <div className="flex items-center gap-4">
-            <SearchInput />
+            {/* <SearchInput /> */}
+            <Suspense fallback={null}>
+              <SearchInput />
+            </Suspense>
+
             <ToggleMode />
 
-         {/* ---------- IF NOT LOGGED IN → SHOW LOGIN & SIGNUP BUTTONS ---------- */}
-{!isLoggedIn ? (
-  <div className="flex items-center gap-2">
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button 
-          variant="outline" 
-          onClick={() => handleOpenDialog(true)}
-        >
-          Login
-        </Button>
-      </DialogTrigger>
+            {/* ---------- IF NOT LOGGED IN → SHOW LOGIN & SIGNUP BUTTONS ---------- */}
+            {!isLoggedIn ? (
+              <div className="flex items-center gap-2">
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleOpenDialog(true)}
+                    >
+                      Login
+                    </Button>
+                  </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <div className="flex space-x-4 mb-2">
-            <Button
-              variant={isLoginForm ? "default" : "ghost"}
-              onClick={() => setIsLoginForm(true)}
-              className="flex-1"
-            >
-              Login
-            </Button>
-            <Button
-              variant={!isLoginForm ? "default" : "ghost"}
-              onClick={() => setIsLoginForm(false)}
-              className="flex-1"
-            >
-              Sign Up
-            </Button>
-          </div>
-        </DialogHeader>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <div className="flex space-x-4 mb-2">
+                        <Button
+                          variant={isLoginForm ? "default" : "ghost"}
+                          onClick={() => setIsLoginForm(true)}
+                          className="flex-1"
+                        >
+                          Login
+                        </Button>
+                        <Button
+                          variant={!isLoginForm ? "default" : "ghost"}
+                          onClick={() => setIsLoginForm(false)}
+                          className="flex-1"
+                        >
+                          Sign Up
+                        </Button>
+                      </div>
+                    </DialogHeader>
 
-        {isLoginForm ? (
-          <LoginForm 
-            onSuccess={() => {
-              handleCloseDialog();
-              // Refresh the page or update UI
-              window.location.reload();
-            }}
-            switchToSignup={() => setIsLoginForm(false)}
-          />
-        ) : (
-          <SignUpForm 
-            onSuccess={() => {
-              // After signup, switch to login form
-              setIsLoginForm(true);
-              // Show success message
-              alert("Account created! Please login.");
-            }}
-            switchToLogin={() => setIsLoginForm(true)}
-          />
-        )}
-      </DialogContent>
-    </Dialog>
+                    {isLoginForm ? (
+                      <LoginForm
+                        onSuccess={() => {
+                          handleCloseDialog();
+                          // Refresh the page or update UI
+                          window.location.reload();
+                        }}
+                        switchToSignup={() => setIsLoginForm(false)}
+                      />
+                    ) : (
+                      <SignUpForm
+                        onSuccess={() => {
+                          // After signup, switch to login form
+                          setIsLoginForm(true);
+                          // Show success message
+                          alert("Account created! Please login.");
+                        }}
+                        switchToLogin={() => setIsLoginForm(true)}
+                      />
+                    )}
+                  </DialogContent>
+                </Dialog>
 
-    <Button onClick={() => handleOpenDialog(false)}>
-      Sign Up
-    </Button>
-  </div>
-)  : (
+                <Button onClick={() => handleOpenDialog(false)}>Sign Up</Button>
+              </div>
+            ) : (
               /* ---------- IF LOGGED IN → SHOW AVATAR MENU ---------- */
               <UserMenu username={username} />
             )}
@@ -171,28 +181,39 @@ const Navbar = () => {
         {/* ---------- MOBILE MENU ---------- */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 space-y-4 border-t">
-
             <div className="px-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
-                <Input type="search" placeholder="Search articles..." className="pl-10" />
+                <Input
+                  type="search"
+                  placeholder="Search articles..."
+                  className="pl-10"
+                />
               </div>
             </div>
 
             <div className="space-y-2 px-4 flex flex-col">
-              <Link href="/articles" className="mobile-link">Articles</Link>
-              <Link href="/tutorials" className="mobile-link">Tutorials</Link>
-              <Link href="/about" className="mobile-link">About</Link>
+              <Link href="/articles" className="mobile-link">
+                Articles
+              </Link>
+              <Link href="/tutorials" className="mobile-link">
+                Tutorials
+              </Link>
+              <Link href="/about" className="mobile-link">
+                About
+              </Link>
 
               {role === "admin" && (
-                <Link href="/dashboard" className="mobile-link">Dashboard</Link>
+                <Link href="/dashboard" className="mobile-link">
+                  Dashboard
+                </Link>
               )}
             </div>
 
             {!isLoggedIn && (
               <div className="px-4 flex flex-col gap-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
@@ -201,7 +222,7 @@ const Navbar = () => {
                 >
                   Login
                 </Button>
-                <Button 
+                <Button
                   className="w-full"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
