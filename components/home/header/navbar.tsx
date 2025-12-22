@@ -96,12 +96,11 @@ const Navbar = () => {
 
           {/* ---------- RIGHT: Search + Theme + Login/Avatar ---------- */}
           <div className="flex items-center gap-4">
-            {/* <SearchInput /> */}
             <Suspense fallback={null}>
-              {/* <div className="hidden md:block">
+              <div className="hidden md:block">
                 <SearchInput />
               </div>
-               */}
+              
             </Suspense>
 
             <ToggleMode />
@@ -186,13 +185,13 @@ const Navbar = () => {
           <div className="md:hidden py-4 space-y-4 border-t">
             <div className="px-4">
               <div className="relative">
-                
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+                <SearchInput/>
+                {/* <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
                 <Input
                   type="search"
                   placeholder="Search articles..."
                   className="pl-10"
-                />
+                /> */}
               </div>
             </div>
 
