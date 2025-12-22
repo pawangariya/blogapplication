@@ -49,7 +49,7 @@ const TopArticles = async ({ excludeArticleId }: TopArticlesProps) => {
         >
           <div className="p-6">
             <Link href={`/articles/${article.id}`}>
-              <div className="relative mb-4 h-20 sm:h-48 w-full overflow-hidden rounded-xl">
+              <div className="relative mb-4 h-40 sm:h-48 w-full overflow-hidden rounded-xl">
                 <Image
                   src={article.featuredImage}
                   height={200}

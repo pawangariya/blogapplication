@@ -98,7 +98,10 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             {/* <SearchInput /> */}
             <Suspense fallback={null}>
-              <SearchInput />
+              <div className="hidden md:block">
+                <SearchInput />
+              </div>
+              
             </Suspense>
 
             <ToggleMode />
