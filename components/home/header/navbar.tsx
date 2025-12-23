@@ -96,17 +96,17 @@ const Navbar = () => {
 
           {/* ---------- RIGHT: Search + Theme + Login/Avatar ---------- */}
           <div className="flex items-center gap-4">
-            {/* <Suspense
+            <Suspense
               fallback={
                 <div className="hidden md:block">
                   <div className="w-64 h-9 bg-muted rounded-md animate-pulse" />
                 </div>
               }
-            > */}
+            >
               <div className="hidden md:block">
                 <SearchInput />
               </div>
-            {/* </Suspense> */}
+            </Suspense>
 
             <ToggleMode />
 
