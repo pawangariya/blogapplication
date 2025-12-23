@@ -112,7 +112,7 @@ const Navbar = () => {
 
             {/* ---------- IF NOT LOGGED IN → SHOW LOGIN & SIGNUP BUTTONS ---------- */}
             {!isLoggedIn ? (
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2">
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
                     <Button
